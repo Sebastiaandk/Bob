@@ -1,0 +1,63 @@
+def calculate_bolivianos():
+    print("\n--- Instellingen voor wisselkoersen en bedragen ---")
+
+    # Wisselkoersen (naar BOB)
+    official_usd_to_bob = float(input("Officiële koers (USD naar BOB): "))
+    official_eur_to_bob = float(input("Officiële koers (EUR naar BOB): "))
+    official_pen_to_bob = float(input("Officiële koers (PEN naar BOB): "))
+
+    # Straatkoersen
+    street_usd_to_bob = float(input("Straatkoers (USD naar BOB): "))
+    street_eur_to_bob = float(input("Straatkoers (EUR naar BOB): "))
+    street_pen_to_bob = float(input("Straatkoers (PEN naar BOB): "))
+
+    # Waarden van 100 EUR in USD en PEN
+    usd_for_100_eur = float(input("Bedrag in USD dat gelijk is aan 100 EUR: "))
+    pen_for_100_eur = float(input("Bedrag in PEN dat gelijk is aan 100 EUR: "))
+
+    # Vraag bedrag in EUR
+    euro_amount = float(input("\nBedrag in EUR (bijvoorbeeld 100 of 1000): "))
+
+    # Berekening: hoeveel USD en PEN is het bedrag in EUR waard?
+    usd_amount = (euro_amount / 100) * usd_for_100_eur
+    pen_amount = (euro_amount / 100) * pen_for_100_eur
+
+    # Berekeningen met officiële koers
+    official_bob_from_eur = euro_amount * official_eur_to_bob
+    official_bob_from_usd = usd_amount * official_usd_to_bob
+    official_bob_from_pen = pen_amount * official_pen_to_bob
+
+    # Berekeningen met straatkoersen
+    street_bob_from_eur = euro_amount * street_eur_to_bob
+    street_bob_from_usd = usd_amount * street_usd_to_bob
+    street_bob_from_pen = pen_amount * street_pen_to_bob
+
+    # Winstpercentages
+    eur_profit = ((street_bob_from_eur / official_bob_from_eur) - 1) * 100
+    usd_profit = ((street_bob_from_usd / official_bob_from_usd) - 1) * 100
+    pen_profit = ((street_bob_from_pen / official_bob_from_pen) - 1) * 100
+
+    # Resultaten
+    print("\n--- Resultaten voor een bedrag van {:.2f} EUR ---".format(euro_amount))
+    print(f"Via EUR: {street_bob_from_eur:.2f} BOB (winst: {eur_profit:.2f}%)")
+    print(f"Via USD: {street_bob_from_usd:.2f} BOB (winst: {usd_profit:.2f}%)")
+    print(f"Via PEN: {street_bob_from_pen:.2f} BOB (winst: {pen_profit:.2f}%)")
+
+    # Beste optie
+    max_profit = max(eur_profit, usd_profit, pen_profit)
+    if max_profit == eur_profit:
+        print("\nBeste valuta: EUR")
+    elif max_profit == usd_profit:
+        print("\nBeste valuta: USD")
+    else:
+        print("\nBeste valuta: PEN")
+
+
+# Automatische herberekening met wijzigbare waarden
+if __name__ == "__main__":
+    while True:
+        calculate_bolivianos()
+        rerun = input("\nWil je opnieuw berekenen met nieuwe waarden? (ja/nee): ").strip().lower()
+        if rerun != "ja":
+            print("Programma beëindigd.")
+            break
